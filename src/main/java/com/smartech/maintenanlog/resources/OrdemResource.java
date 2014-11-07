@@ -6,6 +6,7 @@ import com.smartech.maintenanlog.db.OrdemDAO;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
@@ -27,4 +28,12 @@ public class OrdemResource {
     public List<Ordem> getAll(){
         return ordemDao.findAll();
     }
+
+    @GET
+    @Timed
+    @Path("/tecnico/{number}")
+    public List<Ordem> getByTecnico(@PathParam("number") String number){
+        return ordemDao.findByTecnicno(number);
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.smartech.maintenanlog.core.mappers;
 
+import com.smartech.maintenanlog.core.Equipamento;
 import com.smartech.maintenanlog.core.Ordem;
 import org.skife.jdbi.v2.StatementContext;
 import org.skife.jdbi.v2.tweak.ResultSetMapper;
@@ -17,8 +18,11 @@ public class OrdemMapper  implements ResultSetMapper<Ordem> {
         Calendar ordemDate = Calendar.getInstance();
         ordemDate.setTime(r.getDate("ord_data"));
 
-        return new Ordem(r.getLong("ord_ndx"), r.getString("ord_numero"), r.getString("ord_periodabreviatura"),
+        Ordem ordem = new Ordem(r.getLong("ord_ndx"), r.getString("ord_numero"), r.getString("ord_periodabreviatura"),
                 r.getString("ord_tipo"), ordemDate, r.getString("ord_estado"), r.getString("ord_tecnumero"),
                 r.getString("ord_observacoes"));
+        ordem.setEquipament(new EquipamentoMapper().map(i,r,statementContext));
+
+        return ordem;
     }
 }
