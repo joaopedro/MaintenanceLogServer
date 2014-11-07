@@ -41,9 +41,5 @@ public class MaintenanceLogApplication extends Application<MaintenanceLogConfigu
 
         final OrdemResource ordemResource = new OrdemResource(ordemDAO);
         environment.jersey().register(ordemResource);
-
-        final TemplateHealthCheck healthCheck =
-                new TemplateHealthCheck(configuration.getTemplate());
-        environment.healthChecks().register("template", healthCheck);
     }
 }
