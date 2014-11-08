@@ -14,7 +14,7 @@ public class LoginMapper implements ResultSetMapper<Login>
 {
     public Login map(int index, ResultSet r, StatementContext ctx) throws SQLException
     {
-        return new Login(r.getLong("login_ndx"), r.getString("login_usr"), r.getString("login_pwd")
+        return new Login(r.getLong("login_ndx"), r.getString("login_usr").trim(), r.getString("login_pwd").trim()
                 , r.getString("login_perfil"), r.getString("login_nome"), r.getString("login_apelido"), r.getString("login_tecnumero")
                 , r.getString("tec_categoria"));
     }
