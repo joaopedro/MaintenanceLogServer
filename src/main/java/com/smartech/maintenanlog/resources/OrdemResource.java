@@ -2,7 +2,9 @@ package com.smartech.maintenanlog.resources;
 
 import com.codahale.metrics.annotation.Timed;
 import com.smartech.maintenanlog.core.Ordem;
+import com.smartech.maintenanlog.db.ActivityDAO;
 import com.smartech.maintenanlog.db.OrdemDAO;
+import com.smartech.maintenanlog.db.PartDAO;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -18,9 +20,13 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class OrdemResource {
     private final OrdemDAO ordemDao;
+    private final PartDAO partDao;
+    private final ActivityDAO activityDao;
 
-    public OrdemResource(OrdemDAO ordemDAO) {
+    public OrdemResource(OrdemDAO ordemDAO, PartDAO partDao, ActivityDAO activityDao) {
         this.ordemDao = ordemDAO;
+        this.partDao = partDao;
+        this.activityDao = activityDao;
     }
 
     @GET
@@ -33,7 +39,13 @@ public class OrdemResource {
     @Timed
     @Path("/tecnico/{number}")
     public List<Ordem> getByTecnico(@PathParam("number") String number){
-        return ordemDao.findByTecnicno(number);
+        List<Ordem> byTecnico = ordemDao.findByTecnico(number);
+
+        for (Ordem ordem : byTecnico) {
+            ordem.setParts(partDao.findByEquipamentoAndPeriodicaidade(ordem.getEquipament().getNumber(), ordem.getPeriodicityCode()));
+            ordem.setActivities(activityDao.findByEquipamentoAndPeriodicaidade(ordem.getEquipament().getNumber(), ordem.getPeriodicityCode()));
+        }
+        return byTecnico;
     }
 
 }

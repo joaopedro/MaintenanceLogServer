@@ -19,8 +19,8 @@ public class OrdemMapper  implements ResultSetMapper<Ordem> {
         ordemDate.setTime(r.getDate("ord_data"));
 
         Ordem ordem = new Ordem(r.getLong("ord_ndx"), r.getString("ord_numero"), r.getString("ord_periodabreviatura"),
-                r.getString("ord_tipo"), ordemDate, r.getString("ord_estado"), r.getString("ord_tecnumero").trim(),
-                r.getString("ord_observacoes"));
+                r.getString("ord_periodicidade"), r.getString("ord_tipo"), ordemDate, r.getString("ord_estado"),
+                r.getString("ord_tecnumero").trim(), r.getString("ord_observacoes"));
         ordem.setEquipament(new EquipamentoMapper().map(i,r,statementContext));
 
         return ordem;

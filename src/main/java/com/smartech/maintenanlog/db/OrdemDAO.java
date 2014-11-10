@@ -18,5 +18,5 @@ public interface OrdemDAO {
 
     @SqlQuery("select * from ordens, equipamentos where ord_equipamento=equ_numero and convert(varchar(10),ord_data,102)=convert(varchar(10),getdate(),102)" +
             " and ord_estado='agd' and ord_tecnumero= :tecnico")
-    List<Ordem> findByTecnicno(@Bind("tecnico") String tecnico);
+    List<Ordem> findByTecnico(@Bind("tecnico") String tecnico);
 }

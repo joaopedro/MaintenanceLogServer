@@ -11,6 +11,7 @@ public class Ordem {
     private long id;
     private String orderNumber;
     private String periodicity;
+    private String periodicityCode;
     private String type;
     private Calendar date;
     private String state;
@@ -20,11 +21,12 @@ public class Ordem {
     private List<Part> parts;
     private List<Activity> activities;
 
-    public Ordem(long id,  String orderNumber, String periodicity, String type, Calendar date,
+    public Ordem(long id,  String orderNumber, String periodicity, String periodicityCode, String type, Calendar date,
                  String state, String tecNumber, String obs){
         this.id = id;
         this.orderNumber = orderNumber;
         this.periodicity = periodicity;
+        this.periodicityCode = periodicityCode;
         this.type = type;
         this.date = date;
         this.state = state;
@@ -134,5 +136,13 @@ public class Ordem {
 
     public void setObs(String obs) {
         this.obs = obs;
+    }
+
+    public String getPeriodicityCode() {
+        return periodicityCode;
+    }
+
+    public void setPeriodicityCode(String periodicityCode) {
+        this.periodicityCode = periodicityCode;
     }
 }
