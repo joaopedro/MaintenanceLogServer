@@ -1,8 +1,10 @@
 package com.smartech.maintenanlog.resources;
 
 import com.codahale.metrics.annotation.Timed;
+import com.smartech.maintenanlog.core.HistoryEntry;
 import com.smartech.maintenanlog.core.Ordem;
 import com.smartech.maintenanlog.db.ActivityDAO;
+import com.smartech.maintenanlog.db.HistoryEntryDAO;
 import com.smartech.maintenanlog.db.OrdemDAO;
 import com.smartech.maintenanlog.db.PartDAO;
 
@@ -22,11 +24,13 @@ public class OrdemResource {
     private final OrdemDAO ordemDao;
     private final PartDAO partDao;
     private final ActivityDAO activityDao;
+    private final HistoryEntryDAO historyEntryDAO;
 
-    public OrdemResource(OrdemDAO ordemDAO, PartDAO partDao, ActivityDAO activityDao) {
+    public OrdemResource(OrdemDAO ordemDAO, PartDAO partDao, ActivityDAO activityDao, HistoryEntryDAO historyEntryDAO) {
         this.ordemDao = ordemDAO;
         this.partDao = partDao;
         this.activityDao = activityDao;
+        this.historyEntryDAO = historyEntryDAO;
     }
 
     @GET
@@ -44,6 +48,8 @@ public class OrdemResource {
         for (Ordem ordem : byTecnico) {
             ordem.setParts(partDao.findByEquipamentoAndPeriodicaidade(ordem.getEquipament().getNumber(), ordem.getPeriodicityCode()));
             ordem.setActivities(activityDao.findByEquipamentoAndPeriodicaidade(ordem.getEquipament().getNumber(), ordem.getPeriodicityCode()));
+            ordem.getEquipament().setHistoryEntries(historyEntryDAO.findByEquipamento(ordem.getEquipament().getNumber()));
+            ordem.getEquipament().setNextHistoryEntry(historyEntryDAO.getNext(ordem.getEquipament().getNumber()));
         }
         return byTecnico;
     }

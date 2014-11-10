@@ -12,6 +12,7 @@ public class Equipamento {
     private final String name;
     private final String localizacao;
     private List<HistoryEntry> historyEntries;
+    private HistoryEntry nextHistoryEntry;
 
     public Equipamento(long id, String number, String name, String localizacao) {
 
@@ -33,6 +34,9 @@ public class Equipamento {
         return historyEntries;
     }
 
+    public void setHistoryEntries(List<HistoryEntry> historyEntries) {
+        this.historyEntries = historyEntries;
+    }
 
     public long getId() {
         return id;
@@ -48,5 +52,13 @@ public class Equipamento {
 
     public String getLocalizacao() {
         return localizacao;
+    }
+
+    public void setNextHistoryEntry(HistoryEntry nextHistoryEntry) {
+        this.nextHistoryEntry = nextHistoryEntry;
+    }
+
+    public HistoryEntry getNextHistoryEntry() {
+        return nextHistoryEntry;
     }
 }

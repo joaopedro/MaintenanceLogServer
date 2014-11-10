@@ -1,9 +1,7 @@
 package com.smartech.maintenanlog;
 
-import com.smartech.maintenanlog.db.ActivityDAO;
-import com.smartech.maintenanlog.db.LoginDAO;
-import com.smartech.maintenanlog.db.OrdemDAO;
-import com.smartech.maintenanlog.db.PartDAO;
+import com.smartech.maintenanlog.db.*;
+import com.smartech.maintenanlog.resources.EquipamentoResource;
 import com.smartech.maintenanlog.resources.OrdemResource;
 import com.smartech.maintenanlog.resources.LoginResource;
 import io.dropwizard.Application;
@@ -38,11 +36,16 @@ public class MaintenanceLogApplication extends Application<MaintenanceLogConfigu
         final OrdemDAO ordemDAO = jdbi.onDemand(OrdemDAO.class);
         final PartDAO partDAO = jdbi.onDemand(PartDAO.class);
         final ActivityDAO activityDAO = jdbi.onDemand(ActivityDAO.class);
+        final HistoryEntryDAO historyEntryDAO = jdbi.onDemand(HistoryEntryDAO.class);
+        final EquipamentoDAO equipamentoDAO = jdbi.onDemand(EquipamentoDAO.class);
 
         final LoginResource loginResource = new LoginResource(loginDAO);
         environment.jersey().register(loginResource);
 
-        final OrdemResource ordemResource = new OrdemResource(ordemDAO, partDAO, activityDAO);
+        final OrdemResource ordemResource = new OrdemResource(ordemDAO, partDAO, activityDAO, historyEntryDAO);
         environment.jersey().register(ordemResource);
+
+        final EquipamentoResource equipamentoResource = new EquipamentoResource(historyEntryDAO, equipamentoDAO);
+        environment.jersey().register(equipamentoResource);
     }
 }
